@@ -55,5 +55,12 @@ module.exports.create = (config) ->
                 # error before first connect enters reconnect loop
                 #
 
-                if local.status.value is 'pending' then local.reconnect 'connecting'
+                if local.status.value is 'pending' 
+
+                    console.log 'reconnect'
+
+                    local.reconnect 'connecting'
  
+
+
+        reconnect: (type) -> 

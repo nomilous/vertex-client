@@ -90,13 +90,18 @@ describe 'Client', ipso (should) ->
 
             ipso (subject, socket, EngineIOClient) ->
 
-                subject.status.value = 'pending'
-
                 EngineIOClient.Socket = class
 
                     on: (pub, sub) -> if pub is 'error' then sub()
 
+                subject.status.value = 'pending'
+                delete subject.socket
 
-                subject.does reconnect: (type) ->  
+                subject.does 
+
+                    reconnect: (type) -> 
+
+                        type.should.equal 'connecting'
+                
 
                 subject.connect()
