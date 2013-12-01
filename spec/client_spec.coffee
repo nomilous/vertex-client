@@ -79,7 +79,24 @@ describe 'Client', ipso (should) ->
 
                         uri.should.equal 'ws://localhost:3001'
 
+                    on: ->
+
 
                 subject.connect()
 
 
+
+        it 'enters reconnect loop as "connecting" on socket error if status is pending', 
+
+            ipso (subject, socket, EngineIOClient) ->
+
+                subject.status.value = 'pending'
+
+                EngineIOClient.Socket = class
+
+                    on: (pub, sub) -> if pub is 'error' then sub()
+
+
+                subject.does reconnect: (type) ->  
+
+                subject.connect()

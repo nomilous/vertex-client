@@ -47,3 +47,13 @@ module.exports.create = (config) ->
             return local.reconnect() if local.socket?
 
             local.socket = socket = new EngineIoClient.Socket config.connect.uri
+
+
+            socket.on 'error', ->
+
+                #
+                # error before first connect enters reconnect loop
+                #
+
+                if local.status.value is 'pending' then local.reconnect 'connecting'
+ 
