@@ -94,6 +94,7 @@ module.exports.create = (config) ->
         reconnect: (type) -> 
 
             return unless type is 'connecting' or type is 'reconnecting'
+            return if local[type]?
 
 
             local[type] = setInterval (->

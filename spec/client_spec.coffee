@@ -188,11 +188,22 @@ describe 'Client', ipso (should) ->
 
 
 
+        it 'does not restart an already running reconnect loop', 
 
 
+            ipso (subject) -> 
 
 
+                delete subject.socket
+                clearInterval subject.connecting
+                delete subject.connecting
+                clearInterval subject.reconnecting
 
+                subject.reconnect 'connecting'
+                interval = subject.connecting
+
+                subject.reconnect 'connecting'
+                subject.connecting.should.equal interval
 
 
 
