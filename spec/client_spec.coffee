@@ -5,6 +5,13 @@ describe 'Client', ipso (should) ->
 
     before ipso (Client) -> 
 
+        mock('socket').with
+
+            on: ->
+            open: ->
+            send: ->
+
+
         tag 
 
             subject: Client.create mock('config').with
@@ -13,6 +20,11 @@ describe 'Client', ipso (should) ->
                 uuid: 'UUID'
                 secret: 'secret'
                 context: some: 'things'
+                connect: 
+                    uri: 'ws://localhost:3001'
+
+
+            EngineIOClient: require 'engine.io-client'
 
 
     it 'defines title, uuid, context, secret from config', ipso (subject) -> 
@@ -53,4 +65,21 @@ describe 'Client', ipso (should) ->
                 subject.socket = {} # already has socket defined
                 subject.does reconnect: -> 
                 subject.connect()
+
+
+        it 'creates the socket', 
+
+            ipso (subject, socket, EngineIOClient) ->
+
+                delete subject.socket # socket has not been connected
+
+                EngineIOClient.Socket = class
+
+                    constructor: (uri) -> 
+
+                        uri.should.equal 'ws://localhost:3001'
+
+
+                subject.connect()
+
 

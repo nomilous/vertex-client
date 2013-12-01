@@ -13,7 +13,7 @@ if typeof require.exists is 'function'
     # running client-side
     #
 
-    {Socket} = require 'engine.io'
+    EngineIoClient = require 'engine.io'
 
 
 else 
@@ -22,7 +22,7 @@ else
     # running server-side
     #
 
-    {Socket} = require 'engine.io-client'
+    EngineIoClient = require 'engine.io-client'
 
 
 
@@ -46,4 +46,4 @@ module.exports.create = (config) ->
 
             return local.reconnect() if local.socket?
 
-
+            local.socket = socket = new EngineIoClient.Socket config.connect.uri
