@@ -13,7 +13,7 @@ if typeof require.exists is 'function'
     # running client-side
     #
 
-    {Socket} = require 'engine-io'
+    {Socket} = require 'engine.io'
 
 
 else 
