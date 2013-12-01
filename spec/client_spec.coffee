@@ -105,3 +105,21 @@ describe 'Client', ipso (should) ->
                 
 
                 subject.connect()
+
+
+        it 'sets status to connected on socket open', 
+
+            ipso (subject, socket, EngineIOClient) ->
+
+                EngineIOClient.Socket = class
+
+                    on: (pub, sub) -> if pub is 'open' then sub()
+
+
+                subject.status.value = 'pending'
+                delete subject.socket
+
+                subject.connect()
+                subject.status.value.should.equal 'connected'
+
+
