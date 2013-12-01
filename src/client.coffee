@@ -26,7 +26,11 @@ else
 
 
 
-module.exports.create = (config) ->
+module.exports.create = (config = {}) ->
+
+    if config.connect?
+
+        config.connect.interval ||= 1000
 
     local = 
 
@@ -94,8 +98,8 @@ module.exports.create = (config) ->
         reconnect: (type) -> 
 
             return unless type is 'connecting' or type is 'reconnecting'
+            return if config.connect.interval < 1000
             return if local[type]?
-
 
             local[type] = setInterval (->
 
@@ -103,4 +107,9 @@ module.exports.create = (config) ->
                 # repeat attempt to connect
                 #
 
-            ), 1000
+                local.socket.open()
+
+            ), config.connect.interval
+
+
+

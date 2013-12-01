@@ -22,6 +22,7 @@ describe 'Client', ipso (should) ->
                 context: some: 'things'
                 connect: 
                     uri: 'ws://localhost:3001'
+                    interval: 1000
 
 
             EngineIOClient: require 'engine.io-client'
@@ -190,7 +191,6 @@ describe 'Client', ipso (should) ->
 
         it 'does not restart an already running reconnect loop', 
 
-
             ipso (subject) -> 
 
 
@@ -204,6 +204,38 @@ describe 'Client', ipso (should) ->
 
                 subject.reconnect 'connecting'
                 subject.connecting.should.equal interval
+
+
+        it 'calls open() on the socket at specified interval', 
+
+            ipso (facto, subject) -> 
+
+                now = Date.now()
+                subject.socket = open: -> 
+
+                                        # scheduler's a tad various
+                    (Date.now() - now + 50 > 1000).should.equal true
+                    clearInterval subject.connecting
+                    facto()
+
+                subject.reconnect 'connecting'
+
+
+
+        it 'does not allow interval less than 1000', 
+
+            ipso (Client) -> 
+
+                instance = Client.create 
+                    connect:
+                        uri: 'ws://localhost:3001'
+                        interval: 999
+
+                instance.reconnect 'connecting'
+                should.not.exist instance.connecting
+
+
+
 
 
 
