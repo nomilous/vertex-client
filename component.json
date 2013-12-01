@@ -9,7 +9,8 @@
   },
   "development": {},
   "license": "MIT",
+  "main": "lib/client.js",
   "scripts": [
-    "index.js"
+    "lib/client.js"
   ]
 }
