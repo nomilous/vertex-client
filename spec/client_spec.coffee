@@ -97,11 +97,12 @@ describe 'Client', ipso (should) ->
                 subject.status.value = 'pending'
                 delete subject.socket
 
-                subject.does reconnect: (type) -> type.should.equal 'connecting'
+                subject.does _reconnect: (type) -> type.should.equal 'connecting'
                 subject.connect()
+                should.exist subject.connecting
 
 
-        it 'sets status to connected on socket open', 
+        it 'sets status to connected and clears connection intervals on socket open', 
 
             ipso (subject, socket, EngineIOClient) ->
 
@@ -110,11 +111,15 @@ describe 'Client', ipso (should) ->
                     on: (pub, sub) -> if pub is 'open' then sub()
 
 
+                subject.connecting = setInterval ->
+                subject.reconnecting = setInterval ->
                 subject.status.value = 'pending'
                 delete subject.socket
 
                 subject.connect()
                 subject.status.value.should.equal 'connected'
+                should.not.exist subject.connecting
+                should.not.exist subject.reconnecting
 
 
         it 'enters reconnect loop as "reconnecting" on socket close', 
@@ -132,13 +137,13 @@ describe 'Client', ipso (should) ->
                 subject.status.value = 'pending'
                 delete subject.socket
 
-
-                subject.does reconnect: (type) -> type.should.equal 'reconnecting'
+                subject.does _reconnect: (type) -> type.should.equal 'reconnecting'
                 subject.connect()
+                should.exist subject.reconnecting
 
 
 
-        it 'does not enter reconnect loop as "reconnecting" on socket close is status is denied',
+        it 'does not enter reconnect loop as "reconnecting" on socket close if status is denied',
 
             ipso (subject, socket, EngineIOClient, assert) ->
 
@@ -153,7 +158,12 @@ describe 'Client', ipso (should) ->
 
                         if pub is 'close' then sub()
 
+
                 delete subject.socket
+                clearInterval subject.connecting
+                delete subject.connecting
+                clearInterval subject.reconnecting
+                delete subject.reconnecting
 
                 subject.connect()
                 should.not.exist subject.reconnecting
@@ -161,7 +171,20 @@ describe 'Client', ipso (should) ->
 
                 
 
+    context 'reconnect()', -> 
 
+
+        it 'does not enter the reconnect loop if type isnt connecting or reconnecting', 
+
+            ipso (subject) -> 
+
+                delete subject.socket
+                clearInterval subject.connecting
+                delete subject.connecting
+                clearInterval subject.reconnecting
+
+                subject.reconnect 'reconnectType'
+                should.not.exist subject.reconnectType
 
 
 

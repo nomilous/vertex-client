@@ -64,6 +64,16 @@ module.exports.create = (config) ->
                 local.status.value = 'connected'
                 local.status.at = new Date
 
+                if local.connecting? 
+
+                    clearInterval local.connecting
+                    delete local.connecting
+
+                if local.reconnecting? 
+
+                    clearInterval local.reconnecting
+                    delete local.reconnecting
+
 
 
             socket.on 'close', -> 
@@ -74,9 +84,22 @@ module.exports.create = (config) ->
 
  
 
+        #
+        # connect / reconnect intervals
+        #
 
-
+        connecting: undefined
+        reconnecting: undefined
 
         reconnect: (type) -> 
 
-            local[type] = {}
+            return unless type is 'connecting' or type is 'reconnecting'
+
+
+            local[type] = setInterval (->
+
+                #
+                # repeat attempt to connect
+                #
+
+            ), 1000
