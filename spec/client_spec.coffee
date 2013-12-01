@@ -26,3 +26,23 @@ describe 'Client', ipso (should) ->
     it 'does not expose secret'
 
 
+    it 'creates a logger'
+
+
+    it 'defines status', 
+
+        ipso (subject) -> 
+
+            subject.status.value.should.equal 'pending'
+            subject.status.at.should.be.an.instanceof Date
+
+
+    context 'connect()', ->
+
+        it 'is defined', 
+
+            ipso (subject) -> 
+
+                subject.connect.should.be.an.instanceof Function
+
+
