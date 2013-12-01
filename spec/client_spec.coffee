@@ -238,7 +238,7 @@ describe 'Client', ipso (should) ->
 
 
 
-        it 'does not allow interval less than 1000', 
+        it 'increases connect.interval to minimum 1000 ms', 
 
             ipso (Client) -> 
 
@@ -248,7 +248,7 @@ describe 'Client', ipso (should) ->
                         interval: 999
 
                 instance.reconnect 'connecting'
-                should.not.exist instance.connecting
+                instance.connecting._idleTimeout.should.equal 1000
 
 
 

@@ -122,7 +122,9 @@ module.exports.create = (config = {}) ->
         reconnect: (type) -> 
 
             return unless type is 'connecting' or type is 'reconnecting'
-            return if config.connect.interval < 1000
+
+            interval = config.connect.interval
+            interval = 1000 if interval < 1000
             return if local[type]?
 
             local[type] = setInterval (->
@@ -134,7 +136,7 @@ module.exports.create = (config = {}) ->
                 console.log type
                 local.socket.open()
 
-            ), config.connect.interval
+            ), interval
 
 
 
