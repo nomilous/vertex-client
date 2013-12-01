@@ -7,7 +7,7 @@ describe 'Client', ipso (should) ->
 
         tag 
 
-            subject: Client.create mock('config').with
+            subject: Client mock('config').with
 
                 title: 'Title'
                 uuid: 'UUID'
@@ -21,5 +21,8 @@ describe 'Client', ipso (should) ->
         subject.uuid.should.equal 'UUID'
         subject.context.should.eql some: 'things'
         subject.secret.should.equal 'secret'
+
+
+    it 'does not expose secret'
 
 
