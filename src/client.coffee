@@ -121,6 +121,10 @@ module.exports.create = (config = {}) ->
                     return local[message.event] message
 
 
+                #
+                # pending proper interface to socket
+                #
+
                 console.log received: message
 
 
