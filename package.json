@@ -15,6 +15,7 @@
   "bugs": {
     "url": "https://github.com/nomilous/vertex-client/issues"
   },
+  "main": "lib/client",
   "devDependencies": {
     "ipso": "0.0.14"
   },
