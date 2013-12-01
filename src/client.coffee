@@ -44,4 +44,6 @@ module.exports.create = (config) ->
 
         connect: -> 
 
+            return local.reconnect() if local.socket?
+
 

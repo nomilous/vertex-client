@@ -46,3 +46,11 @@ describe 'Client', ipso (should) ->
                 subject.connect.should.be.an.instanceof Function
 
 
+        it 'calls reconnect() if socket was already connected',
+
+            ipso (subject) -> 
+
+                subject.socket = {} # already has socket defined
+                subject.does reconnect: -> 
+                subject.connect()
+
