@@ -134,6 +134,52 @@ describe 'Client', ipso (should) ->
                 should.not.exist subject.reconnecting
 
 
+        it 'sends deny event to sets status',
+
+
+            ipso (subject, socket, EngineIOClient) -> 
+
+                EngineIOClient.Socket = class
+
+                    on: (pub, sub) -> 
+
+                        if pub is 'message' 
+
+                            sub JSON.stringify event: 'deny'
+
+
+                delete subject.socket
+
+                subject.does _deny: ->
+
+                subject.connect()
+                console.log subject.status.value.should.equal 'denied'
+
+
+        it 'sends accept event to updates status',
+
+
+            ipso (subject, socket, EngineIOClient) -> 
+
+                EngineIOClient.Socket = class
+
+                    on: (pub, sub) -> 
+
+                        if pub is 'message' 
+
+                            sub JSON.stringify event: 'accept'
+
+
+                delete subject.socket
+
+                subject.does _accept: ->
+
+                subject.connect()
+                console.log subject.status.value.should.equal 'accepted'
+
+
+
+
         it 'enters reconnect loop as "reconnecting" on socket close', 
 
 

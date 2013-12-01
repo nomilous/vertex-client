@@ -110,6 +110,34 @@ module.exports.create = (config = {}) ->
 
                 local.reconnect 'reconnecting'
 
+
+
+            socket.on 'message', (payload) -> 
+
+                message = JSON.parse payload
+
+                if message.event is 'deny' or message.event is 'accept'
+
+                    return local[message.event] message
+
+
+
+        deny: -> 
+            
+            local.status.value = 'denied'
+            local.status.at = new Date
+            console.log 'deny'
+
+
+
+        accept: -> 
+            
+            local.status.value = 'accepted'
+            local.status.at = new Date
+            console.log 'accept'
+
+
+
  
 
         #
@@ -122,10 +150,10 @@ module.exports.create = (config = {}) ->
         reconnect: (type) -> 
 
             return unless type is 'connecting' or type is 'reconnecting'
+            return if local[type]?
 
             interval = config.connect.interval
             interval = 1000 if interval < 1000
-            return if local[type]?
 
             local[type] = setInterval (->
 
