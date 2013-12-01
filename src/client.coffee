@@ -125,7 +125,7 @@ module.exports.create = (config = {}) ->
                 # pending proper interface to socket
                 #
 
-                console.log received: message
+                # console.log received: message
 
 
 
