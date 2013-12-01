@@ -4,7 +4,9 @@
   "description": "Vertex client component",
   "version": "0.0.1",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "LearnBoost/engine.io-client" : "*"
+  },
   "development": {},
   "license": "MIT",
   "main": "lib/client.js",
