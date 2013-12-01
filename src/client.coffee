@@ -64,9 +64,19 @@ module.exports.create = (config) ->
                 local.status.value = 'connected'
                 local.status.at = new Date
 
+
+
+            socket.on 'close', -> 
+
+                return if local.status.value is 'denied'
+
+                local.reconnect 'reconnecting'
+
  
 
 
 
 
         reconnect: (type) -> 
+
+            local[type] = {}

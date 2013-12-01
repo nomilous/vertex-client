@@ -97,13 +97,7 @@ describe 'Client', ipso (should) ->
                 subject.status.value = 'pending'
                 delete subject.socket
 
-                subject.does 
-
-                    reconnect: (type) -> 
-
-                        type.should.equal 'connecting'
-                
-
+                subject.does reconnect: (type) -> type.should.equal 'connecting'
                 subject.connect()
 
 
@@ -121,5 +115,61 @@ describe 'Client', ipso (should) ->
 
                 subject.connect()
                 subject.status.value.should.equal 'connected'
+
+
+        it 'enters reconnect loop as "reconnecting" on socket close', 
+
+
+            ipso (subject, socket, EngineIOClient) ->
+
+                EngineIOClient.Socket = class
+
+                    on: (pub, sub) -> 
+
+                        if pub is 'open' then sub()
+                        if pub is 'close' then sub()
+
+                subject.status.value = 'pending'
+                delete subject.socket
+
+
+                subject.does reconnect: (type) -> type.should.equal 'reconnecting'
+                subject.connect()
+
+
+
+        it 'does not enter reconnect loop as "reconnecting" on socket close is status is denied',
+
+            ipso (subject, socket, EngineIOClient, assert) ->
+
+                EngineIOClient.Socket = class
+
+                    on: (pub, sub) -> 
+
+                        if pub is 'open' 
+
+                            sub()
+                            subject.status.value = 'denied'
+
+                        if pub is 'close' then sub()
+
+                delete subject.socket
+
+                subject.connect()
+                should.not.exist subject.reconnecting
+
+
+                
+
+
+
+
+
+
+
+
+
+
+
 
 
