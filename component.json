@@ -7,8 +7,8 @@
   "dependencies": {},
   "development": {},
   "license": "MIT",
-  "main": "index.js",
+  "main": "lib/client.js",
   "scripts": [
-    "index.js"
+    "lib/client.js"
   ]
 }
