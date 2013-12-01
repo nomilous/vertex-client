@@ -17,7 +17,7 @@
   },
   "main": "lib/client",
   "devDependencies": {
-    "ipso": "0.0.14"
+    "ipso": "0.0.15"
   },
   "dependencies": {
     "engine.io-client": "~0.7.12"
