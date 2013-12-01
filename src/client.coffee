@@ -79,6 +79,7 @@ module.exports.create = (config = {}) ->
                 local.status.value = 'connected'
                 local.status.at = new Date
 
+
                 if local.connecting? 
 
                     clearInterval local.connecting
@@ -88,6 +89,16 @@ module.exports.create = (config = {}) ->
 
                     clearInterval local.reconnecting
                     delete local.reconnecting
+
+
+                socket.send JSON.stringify
+
+                    event:   'handshake'
+                    data:
+                        title:   local.title
+                        uuid:    local.uuid
+                        context: local.context
+                        secret:  local.secret
 
 
 

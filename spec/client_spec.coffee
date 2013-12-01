@@ -103,13 +103,24 @@ describe 'Client', ipso (should) ->
                 should.exist subject.connecting
 
 
-        it 'sets status to connected and clears connection intervals on socket open', 
+        it 'sets status to connected, clears connection intervals and sends the handshake on socket open', 
 
             ipso (subject, socket, EngineIOClient) ->
 
                 EngineIOClient.Socket = class
 
                     on: (pub, sub) -> if pub is 'open' then sub()
+                    send: (payload) ->
+
+                        JSON.parse( payload ).should.eql
+
+                            event: 'handshake'
+                            data: 
+                                title: 'Title'
+                                uuid:  'UUID'
+                                context: 
+                                    some: 'things'
+                                secret: 'secret'
 
 
                 subject.connecting = setInterval ->
@@ -135,6 +146,8 @@ describe 'Client', ipso (should) ->
                         if pub is 'open' then sub()
                         if pub is 'close' then sub()
 
+                    send: ->
+
                 subject.status.value = 'pending'
                 delete subject.socket
 
@@ -158,6 +171,8 @@ describe 'Client', ipso (should) ->
                             subject.status.value = 'denied'
 
                         if pub is 'close' then sub()
+
+                    send: ->
 
 
                 delete subject.socket
