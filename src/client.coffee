@@ -1,1 +1,7 @@
-module.exports = -> console.log 'client'
+
+{Socket} = require 'engine.io-client'
+
+module.exports = -> 
+
+    console.log Socket
+
