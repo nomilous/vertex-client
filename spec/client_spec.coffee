@@ -206,6 +206,7 @@ describe 'Client', ipso (should) ->
                 subject.connecting.should.equal interval
 
 
+
         it 'calls open() on the socket at specified interval', 
 
             ipso (facto, subject) -> 

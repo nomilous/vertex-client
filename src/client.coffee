@@ -1,3 +1,6 @@
+#
+# todo: logger
+#
 
 if typeof require.exists is 'function'
 
@@ -48,12 +51,18 @@ module.exports.create = (config = {}) ->
 
         connect: -> 
 
+            console.log 'connect'
+
+
             return local.reconnect() if local.socket?
 
             local.socket = socket = new EngineIoClient.Socket config.connect.uri
 
 
-            socket.on 'error', ->
+
+            socket.on 'error', (err) ->
+
+                console.log 'error', err
 
                 #
                 # error before first connect enters reconnect loop
@@ -64,6 +73,8 @@ module.exports.create = (config = {}) ->
 
 
             socket.on 'open', -> 
+
+                console.log 'open'
 
                 local.status.value = 'connected'
                 local.status.at = new Date
@@ -81,6 +92,8 @@ module.exports.create = (config = {}) ->
 
 
             socket.on 'close', -> 
+
+                console.log 'close'
 
                 return if local.status.value is 'denied'
 
@@ -107,6 +120,7 @@ module.exports.create = (config = {}) ->
                 # repeat attempt to connect
                 #
 
+                console.log type
                 local.socket.open()
 
             ), config.connect.interval
