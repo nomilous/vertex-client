@@ -1,7 +1,7 @@
 
-{Socket} = require 'engine.io-client'
+# {Socket} = require 'engine.io-client'
 
-module.exports = (config) ->
+module.exports.create = (config) ->
 
     local = 
 

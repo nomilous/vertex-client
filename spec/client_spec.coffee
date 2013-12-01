@@ -7,7 +7,7 @@ describe 'Client', ipso (should) ->
 
         tag 
 
-            subject: Client mock('config').with
+            subject: Client.create mock('config').with
 
                 title: 'Title'
                 uuid: 'UUID'
