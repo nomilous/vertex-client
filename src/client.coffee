@@ -1,4 +1,12 @@
-debug = require('debug') 'vertex-client'
+
+
+
+#
+# require('debug').enable('vertex-client:*');
+# DEBUG=vertex-client:* 
+# 
+
+debug = require('debug') 'vertex-client:base'
 
 if typeof require.exists is 'function'
 
