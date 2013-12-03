@@ -153,7 +153,7 @@ describe 'Client', ipso (should) ->
                 subject.does _deny: ->
 
                 subject.connect()
-                console.log subject.status.value.should.equal 'denied'
+                subject.status.value.should.equal 'denied'
 
 
         it 'sends accept event to updates status',
@@ -175,7 +175,7 @@ describe 'Client', ipso (should) ->
                 subject.does _accept: ->
 
                 subject.connect()
-                console.log subject.status.value.should.equal 'accepted'
+                subject.status.value.should.equal 'accepted'
 
 
 

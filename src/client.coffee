@@ -1,6 +1,4 @@
-#
-# todo: logger
-#
+debug = require('debug') 'vertex-client'
 
 if typeof require.exists is 'function'
 
@@ -51,18 +49,19 @@ module.exports.create = (config = {}) ->
 
         connect: -> 
 
-            console.log 'connect'
-
-
             return local.reconnect() if local.socket?
+
+            debug 'connecting to %s', config.connect.uri
 
             local.socket = socket = new EngineIoClient.Socket config.connect.uri
 
 
 
+
+
             socket.on 'error', (err) ->
 
-                console.log 'error', err
+                debug 'error %s', config.connect.uri, err
 
                 #
                 # error before first connect enters reconnect loop
@@ -72,9 +71,11 @@ module.exports.create = (config = {}) ->
 
 
 
+
+
             socket.on 'open', -> 
 
-                console.log 'open'
+                debug 'opened %s', config.connect.uri
 
                 local.status.value = 'connected'
                 local.status.at = new Date
@@ -102,13 +103,17 @@ module.exports.create = (config = {}) ->
 
 
 
+
+
             socket.on 'close', -> 
 
-                console.log 'close'
+                debug 'closed %s', config.connect.uri
 
                 return if local.status.value is 'denied'
 
                 local.reconnect 'reconnecting'
+
+
 
 
 
@@ -125,15 +130,13 @@ module.exports.create = (config = {}) ->
                 # pending proper interface to socket
                 #
 
-                # console.log received: message
-
 
 
         deny: -> 
             
             local.status.value = 'denied'
             local.status.at = new Date
-            console.log 'deny'
+            debug 'denied'
 
 
 
@@ -141,7 +144,7 @@ module.exports.create = (config = {}) ->
             
             local.status.value = 'accepted'
             local.status.at = new Date
-            console.log 'accept'
+            debug 'accepted'
 
 
 
@@ -168,7 +171,7 @@ module.exports.create = (config = {}) ->
                 # repeat attempt to connect
                 #
 
-                console.log type
+                debug '%s to %s', type, config.connect.uri
                 local.socket.open()
 
             ), interval
