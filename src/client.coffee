@@ -150,7 +150,9 @@ module.exports.create = (config = {}) ->
 
                 #
                 # pending proper interface to socket
-                #
+                # ----------------------------------
+                # 
+                # - EventEmitter
 
 
 
@@ -171,13 +173,26 @@ module.exports.create = (config = {}) ->
 
         peer: (message) -> 
 
+            #
+            # todo: emit event (per action)
+            #
 
-            local.peers[ message.uuid ] = 
+            if message.action is 'depart'
 
-                title: message.title
-                context: message.context
+                #
+                # ? perhaps keep, with status departed and timestamp
+                # ? reap later
+                #
 
+                delete local.peers[ message.uuid ]
+                return
 
+            else if message.action is 'join'
+
+                local.peers[ message.uuid ] = 
+
+                    title: message.title
+                    context: message.context
 
  
 

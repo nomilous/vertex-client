@@ -305,29 +305,60 @@ describe 'Client', ipso (should) ->
 
     context 'peer()', ->
 
+        beforeEach ipso (subject) -> 
 
-        it 'adds peers to the collection', ipso (subject) -> 
-
-
-            subject.peer
-
-                action: 'add'
-                title:  'Title'
-                uuid:   'UUID'
-                context:
-                    some: 'thing'
-                    other: 'stuff'
+            delete subject.peers[uuid] for uuid of subject.peers
 
 
-            subject.peers.should.eql 
+        it 'adds peers to the collection', 
 
-                UUID: 
+            ipso (subject) -> 
 
+                subject.peer
+                    action: 'join'
                     title:  'Title'
+                    uuid:   'UUID'
                     context:
                         some: 'thing'
                         other: 'stuff'
 
+                subject.peers.should.eql 
+                    UUID: 
+                        title:  'Title'
+                        context:
+                            some: 'thing'
+                            other: 'stuff'
+
+
+        it 'removes peers from the collection',
+
+            ipso (subject) -> 
+
+                subject.peers.UUID = {}
+                subject.peers.UUID2 = {}
+
+                subject.peer
+
+                    action: 'depart'
+                    uuid:   'UUID'
+
+
+                subject.peers.should.eql 
+
+                    # UUID: {} # gone
+                    UUID2: {}
+
+
+
+        it 'updates peer status'  
+
+
+            # 
+            # status: joined, idle, interrupted(lost connection)
+            # at: timestamp
+            # 
+            # (hub informs via broadcast)
+            # 
 
 
 
