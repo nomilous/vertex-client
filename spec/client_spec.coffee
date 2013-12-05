@@ -303,9 +303,32 @@ describe 'Client', ipso (should) ->
         subject.peers.should.eql {}
 
 
-    context 'peers', ->
+    context 'peer()', ->
 
-        
+
+        it 'adds peers to the collection', ipso (subject) -> 
+
+
+            subject.peer
+
+                action: 'add'
+                title:  'Title'
+                uuid:   'UUID'
+                context:
+                    some: 'thing'
+                    other: 'stuff'
+
+
+            subject.peers.should.eql 
+
+                UUID: 
+
+                    title:  'Title'
+                    context:
+                        some: 'thing'
+                        other: 'stuff'
+
+
 
 
 

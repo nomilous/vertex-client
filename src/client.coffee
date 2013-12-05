@@ -130,11 +130,22 @@ module.exports.create = (config = {}) ->
 
             socket.on 'message', (payload) -> 
 
+                #
+                # protocol may need some de-bloating / optimization / later
+                # ---------------------------------------------------------
+                # 
+                # * protocol selection/agreement should move into handshake
+                # * is pure binary possible?
+                #
+
                 message = JSON.parse payload
 
-                if message.event is 'deny' or message.event is 'accept'
+                if typeof local[message.event] is 'function'
 
                     return local[message.event] message
+
+
+                debug 'missing event handler for %s', [message.event]
 
 
                 #
@@ -156,6 +167,15 @@ module.exports.create = (config = {}) ->
             local.status.value = 'accepted'
             local.status.at = new Date
             debug 'accepted'
+
+
+        peer: (message) -> 
+
+
+            local.peers[ message.uuid ] = 
+
+                title: message.title
+                context: message.context
 
 
 
