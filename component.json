@@ -6,7 +6,8 @@
   "keywords": [],
   "dependencies": {
     "visionmedia/debug": "*",
-    "LearnBoost/engine.io-client": "*"
+    "LearnBoost/engine.io-client": "*",
+    "broofa/node-uuid": "*"
   },
   "development": {},
   "license": "MIT",

@@ -7,6 +7,7 @@
 # 
 
 debug = require('debug') 'vertex-client:base'
+{v4}  = require 'node-uuid'
 
 if typeof require.exists is 'function'
 
@@ -44,7 +45,7 @@ module.exports.create = (config = {}) ->
     local = 
 
         title:   if config.title?   then config.title   else 'Untitled' 
-        uuid:    if config.uuid?    then config.uuid    # else  v4()
+        uuid:    if config.uuid?    then config.uuid    else v4()
         context: if config.context? then config.context else  {}
         secret:  if config.secret?  then config.secret  else ''
 
@@ -169,6 +170,7 @@ module.exports.create = (config = {}) ->
             local.status.value = 'accepted'
             local.status.at = new Date
             debug 'accepted'
+
 
 
         peer: (message) -> 
