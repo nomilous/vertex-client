@@ -173,6 +173,9 @@ module.exports.create = (config = {}) ->
 
         peer: (message) -> 
 
+            debug 'peer event %s from %s', message.action, message.title
+
+
             #
             # todo: emit event (per action)
             #
@@ -187,7 +190,21 @@ module.exports.create = (config = {}) ->
                 delete local.peers[ message.uuid ]
                 return
 
+
             else if message.action is 'join'
+
+                local.peers[ message.uuid ] = 
+
+                    title: message.title
+                    context: message.context
+
+
+            else if message.action is 'resume'
+
+                #
+                # currently can also mean second connect from same uuid
+                # pending decisions... (behaves exactly like join)
+                # 
 
                 local.peers[ message.uuid ] = 
 
