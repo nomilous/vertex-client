@@ -146,7 +146,7 @@ module.exports.create = (config = {}) ->
                     return local[message.event] message
 
 
-                debug 'missing event handler for %s', [message.event]
+                debug 'missing event handler for %s', [message.event || 'undefined event']
 
 
                 #
@@ -175,7 +175,7 @@ module.exports.create = (config = {}) ->
 
         peer: (message) -> 
 
-            debug 'peer event %s from %s', message.action, message.title
+            debug 'peer event %s from %s', message.action, message.uuid
 
 
             #
@@ -212,6 +212,20 @@ module.exports.create = (config = {}) ->
 
                     title: message.title
                     context: message.context
+
+
+            else if message.action is 'list' 
+
+                #
+                # TODO: a resuming client also receives this list
+                #       it may have additional local listed peers 
+                #       from the previous session
+                #       
+                #       they should probably be cleared out
+                #
+
+                list = message.list
+                local.peers[uuid] = list[uuid] for uuid of list
 
  
 
