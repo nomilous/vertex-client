@@ -298,6 +298,14 @@ describe 'Client', ipso (should) ->
 
 
 
+    it 'maintains a list of peers on the hub', ipso (subject) -> 
+
+        subject.peers.should.eql {}
+
+
+    context 'peers', ->
+
+        
 
 
 

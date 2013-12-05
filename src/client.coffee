@@ -49,6 +49,9 @@ module.exports.create = (config = {}) ->
         secret:  if config.secret?  then config.secret  else ''
 
 
+        peers: {}
+
+
         status:
             value: 'pending'
             at: new Date
