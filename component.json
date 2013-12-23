@@ -14,5 +14,8 @@
   "main": "lib/client.js",
   "scripts": [
     "lib/client.js"
-  ]
+  ],
+  "inject": {
+    "alias": "VertexClient"
+  }
 }
