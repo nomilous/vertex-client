@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "visionmedia/debug": "*",
-    "LearnBoost/engine.io-client": "*",
+    "nomilous/engine.io-client": "component",
     "broofa/node-uuid": "*"
   },
   "development": {},
